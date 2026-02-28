@@ -1,0 +1,76 @@
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>All Short URLs</h2>
+    <button class="btn btn-primary" (click)="loadUrls()" [disabled]="loading">
+      <span *ngIf="!loading">Refresh</span>
+      <span *ngIf="loading">Loading...</span>
+    </button>
+  </div>
+
+  <div *ngIf="error" class="alert alert-error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading && urls.length === 0" class="spinner"></div>
+
+  <div *ngIf="!loading && urls.length === 0 && !error" class="text-center" style="padding: 40px; color: #666;">
+    <p>No URLs found. Create your first short URL above!</p>
+  </div>
+
+  <div *ngIf="urls.length > 0" style="overflow-x: auto;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Original URL</th>
+          <th>Short Code</th>
+          <th>Short URL</th>
+          <th>Access Count</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let url of urls">
+          <td style="max-width: 300px; word-break: break-all;">{{ url.originalUrl }}</td>
+          <td><code>{{ url.shortCode }}</code></td>
+          <td>
+            <div style="display: flex; gap: 5px; align-items: center;">
+              <span style="font-size: 12px; word-break: break-all;">{{ getShortUrl(url.shortCode) }}</span>
+              <button
+                class="btn btn-secondary"
+                style="padding: 4px 8px; font-size: 12px;"
+                (click)="copyToClipboard(getShortUrl(url.shortCode))"
+                title="Copy URL"
+              >
+                📋
+              </button>
+            </div>
+          </td>
+          <td>{{ url.accessCount }}</td>
+          <td>{{ formatDate(url.createdAt) }}</td>
+          <td>
+            <div style="display: flex; gap: 5px;">
+              <button
+                class="btn btn-secondary"
+                style="padding: 6px 12px; font-size: 12px;"
+                (click)="updateShortCode(url.originalUrl)"
+                title="Generate new short code"
+              >
+                🔄
+              </button>
+              <button
+                class="btn btn-danger"
+                style="padding: 6px 12px; font-size: 12px;"
+                (click)="deleteUrl(url.shortCode)"
+                title="Delete"
+              >
+                🗑️
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

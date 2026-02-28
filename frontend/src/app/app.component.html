@@ -1,0 +1,18 @@
+<div class="container" *ngIf="showHeader">
+  <header class="text-center" style="margin-bottom: 40px; color: white;">
+    <h1 style="font-size: 48px; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+      🔗 URL Shortener
+    </h1>
+    <p style="font-size: 18px; opacity: 0.9;">Shorten your long URLs quickly and easily</p>
+    <nav style="margin-top: 20px;">
+      <a routerLink="/" routerLinkActive="active" style="color: white; margin: 0 15px; text-decoration: none; font-weight: 600; padding: 8px 16px; background: rgba(255,255,255,0.2); border-radius: 6px;">
+        Home
+      </a>
+      <a routerLink="/urls" routerLinkActive="active" style="color: white; margin: 0 15px; text-decoration: none; font-weight: 600; padding: 8px 16px; background: rgba(255,255,255,0.2); border-radius: 6px;">
+        All URLs
+      </a>
+    </nav>
+  </header>
+</div>
+
+<router-outlet></router-outlet>
