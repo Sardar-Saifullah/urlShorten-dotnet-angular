@@ -1,0 +1,79 @@
+<div class="card">
+  <h2>Create Short URL</h2>
+  
+  <form (ngSubmit)="onSubmit()" #urlForm="ngForm">
+    <div class="form-group">
+      <label for="originalUrl" class="form-label">Enter URL to shorten:</label>
+      <input
+        type="url"
+        id="originalUrl"
+        name="originalUrl"
+        class="form-control"
+        [(ngModel)]="originalUrl"
+        placeholder="https://example.com"
+        required
+        [disabled]="loading"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="loading || !originalUrl.trim()"
+    >
+      <span *ngIf="!loading">Shorten URL</span>
+      <span *ngIf="loading">Creating...</span>
+    </button>
+  </form>
+
+  <div *ngIf="error" class="alert alert-error mt-20">
+    {{ error }}
+  </div>
+
+  <div *ngIf="shortUrl" class="mt-20">
+    <div class="alert alert-success">
+      <strong>Success!</strong> Your short URL has been created.
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Short URL:</label>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <input
+          type="text"
+          class="form-control"
+          [value]="getShortUrl()"
+          readonly
+          style="flex: 1;"
+        />
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="copyToClipboard(getShortUrl())"
+        >
+          Copy
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Original URL:</label>
+      <p style="word-break: break-all; color: #666;">{{ shortUrl.originalUrl }}</p>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 15px;">
+      <div style="flex: 1;">
+        <strong>Short Code:</strong> {{ shortUrl.shortCode }}
+      </div>
+      <div style="flex: 1;">
+        <strong>Access Count:</strong> {{ shortUrl.accessCount }}
+      </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button class="btn btn-primary" (click)="viewAllUrls()">
+        View All URLs
+      </button>
+    </div>
+  </div>
+</div>
+
